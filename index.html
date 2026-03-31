@@ -9,7 +9,6 @@
         .calculator-container { background-color: #fff; max-width: 800px; margin: 0 auto; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         h1, h2 { color: #0056b3; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
         
-        /* New Meta Box Styling */
         .meta-box { background-color: #f8f9fa; border: 1px solid #d9e2ec; border-radius: 8px; padding: 15px 18px; margin-bottom: 20px; font-size: 14px; color: #444; }
         .meta-box p { margin: 6px 0; }
 
@@ -17,23 +16,20 @@
         .form-group { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
         label { font-weight: 600; flex: 2; padding-right: 15px; }
         .help-text { display: block; font-size: 12px; font-weight: normal; color: #666; margin-top: 4px; }
-        select, input[type="number"] { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; width: 100%; box-sizing: border-box; }
+        select { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; width: 100%; box-sizing: border-box; }
         .input-wrapper { flex: 1; }
         
-        /* Button Styling */
         button { display: block; width: 100%; background-color: #0056b3; color: white; padding: 15px; border: none; border-radius: 4px; font-size: 18px; cursor: pointer; margin-top: 20px; font-weight: bold; }
         button:hover { background-color: #004494; }
         .secondary-btn { background-color: #6c757d; margin-top: 10px; }
         .secondary-btn:hover { background-color: #5a6268; }
         
-        /* Mobile Responsive Layout */
         @media (max-width: 600px) {
             .form-group { flex-direction: column; align-items: flex-start; }
             label { padding-bottom: 10px; width: 100%; }
             .input-wrapper { width: 100%; }
         }
 
-        /* Results Styling */
         .results-box { margin-top: 30px; background-color: #e2f0d9; padding: 20px; border-radius: 8px; display: none; text-align: center; border: 1px solid #99c19a; }
         .result-item { font-size: 28px; margin: 10px 0; font-weight: bold; color: #1e4620; }
         .result-details { font-size: 16px; margin-bottom: 15px; }
@@ -43,7 +39,6 @@
         .band-high { background-color: #f8d7da; color: #721c24; }
         .decision-support-warning { font-size: 13px; font-style: italic; color: #555; background: #fff; padding: 10px; border-radius: 4px; border: 1px dashed #ccc; }
         
-        /* New Result Footer Note */
         .result-note { margin-top: 12px; font-size: 13px; color: #666; text-align: center; }
     </style>
 </head>
@@ -72,37 +67,6 @@
         <h2>Clinical Information</h2>
         
         <div class="form-group">
-            <label for="sex">Sex at birth:</label>
-            <div class="input-wrapper">
-                <select id="sex" name="sex" required>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="age">Age (years):</label>
-            <div class="input-wrapper">
-                <input type="number" id="age" name="age_years" min="0" max="120" step="1" required>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="shunt">Does patient have a shunt?</label>
-            <div class="input-wrapper">
-                <select id="shunt" name="shunt" required><option value="Yes">Yes</option><option value="No">No</option></select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="headache">Headache at presentation?</label>
-            <div class="input-wrapper">
-                <select id="headache" name="headache" required><option value="Yes">Yes</option><option value="No">No</option></select>
-            </div>
-        </div>
-
-        <div class="form-group">
             <label for="visual_symptoms">Visual symptoms at presentation?</label>
             <div class="input-wrapper">
                 <select id="visual_symptoms" name="visual_symptoms" required><option value="Yes">Yes</option><option value="No">No</option></select>
@@ -110,9 +74,9 @@
         </div>
 
         <div class="form-group">
-            <label for="optic_atrophy">History of optic atrophy?</label>
+            <label for="obesity">Obesity or recent weight gain?</label>
             <div class="input-wrapper">
-                <select id="optic_atrophy" name="optic_atrophy" required><option value="Yes">Yes</option><option value="No">No</option></select>
+                <select id="obesity" name="obesity" required><option value="Yes">Yes</option><option value="No">No</option></select>
             </div>
         </div>
 
@@ -126,6 +90,13 @@
         </div>
 
         <div class="form-group">
+            <label for="optic_atrophy">History of optic atrophy?</label>
+            <div class="input-wrapper">
+                <select id="optic_atrophy" name="optic_atrophy" required><option value="Yes">Yes</option><option value="No">No</option></select>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label for="relevant_meds">Relevant medications?
                 <span class="help-text">(e.g., tetracyclines, vitamin A derivatives, lithium)</span>
             </label>
@@ -135,9 +106,9 @@
         </div>
 
         <div class="form-group">
-            <label for="obesity">Obesity or recent weight gain?</label>
+            <label for="shunt">Does patient have a shunt?</label>
             <div class="input-wrapper">
-                <select id="obesity" name="obesity" required><option value="Yes">Yes</option><option value="No">No</option></select>
+                <select id="shunt" name="shunt" required><option value="Yes">Yes</option><option value="No">No</option></select>
             </div>
         </div>
 
@@ -161,57 +132,40 @@
 </div>
 
 <script>
-    // Calculation Logic
     document.getElementById('risk-form').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        // 1. Inputs
-        const sex = document.getElementById('sex').value;
-        const age = parseFloat(document.getElementById('age').value);
-        
-        if (!Number.isFinite(age)) {
-            alert("Please enter a valid numeric age.");
-            return;
-        }
-
-        const shunt = document.getElementById('shunt').value;
-        const headache = document.getElementById('headache').value;
+        // 1. Gather Inputs (Only the variables in the final model)
         const visual_symptoms = document.getElementById('visual_symptoms').value;
-        const optic_atrophy = document.getElementById('optic_atrophy').value;
-        const radio = document.getElementById('radio').value;
-        const relevant_meds = document.getElementById('relevant_meds').value;
         const obesity = document.getElementById('obesity').value;
+        const radio = document.getElementById('radio').value;
+        const optic_atrophy = document.getElementById('optic_atrophy').value;
+        const relevant_meds = document.getElementById('relevant_meds').value;
+        const shunt = document.getElementById('shunt').value;
 
-        // 2. COEFFICIENTS FROM R (Log-Odds) - Retained correct logic
-        const intercept = -1.50; 
-        const coef_female = 0.45;  
-        const coef_age = 0.02;     
-        
-        // These coefficients represent the effect of choosing "No"
-        const coef_no_shunt = -0.80;
-        const coef_no_headache = -0.60;
-        const coef_no_visual = -0.70;
-        const coef_no_atrophy = -1.20;
-        const coef_no_radio = -1.50;
-        const coef_no_meds = -0.40;
-        const coef_no_obesity = -0.90;
+        // 2. Real Model Weights and Intercept
+        const intercept = -1.76195;
+        const weight_visual_symptoms = 1.54704;
+        const weight_obesity = -0.61541;
+        const weight_radio = 1.03546;
+        const weight_optic_atrophy = -0.78296;
+        const weight_relevant_meds = 1.21125;
+        const weight_shunt = -0.98441;
 
-        // 3. Calculate Log-Odds
-        let logOdds = intercept;
+        // 3. Calculate f(x)
+        // Binary coding: 1 if "Yes" (meaning we add the weight), 0 otherwise
+        let fx = intercept;
 
-        logOdds += (age * coef_age);
-        if (sex === 'Female') logOdds += coef_female;
+        if (visual_symptoms === 'Yes') fx += weight_visual_symptoms;
+        if (obesity === 'Yes') fx += weight_obesity;
+        if (radio === 'Yes') fx += weight_radio;
+        if (optic_atrophy === 'Yes') fx += weight_optic_atrophy;
+        if (relevant_meds === 'Yes') fx += weight_relevant_meds;
+        if (shunt === 'Yes') fx += weight_shunt;
 
-        if (shunt === 'No') logOdds += coef_no_shunt;
-        if (headache === 'No') logOdds += coef_no_headache;
-        if (visual_symptoms === 'No') logOdds += coef_no_visual;
-        if (optic_atrophy === 'No') logOdds += coef_no_atrophy;
-        if (radio === 'No') logOdds += coef_no_radio;
-        if (relevant_meds === 'No') logOdds += coef_no_meds;
-        if (obesity === 'No') logOdds += coef_no_obesity;
-
-        // 4. Final Probability calculation
-        let probability = 1 / (1 + Math.exp(-logOdds));
+        // 4. Final Probability calculation using exact formula: [e^f(x)] / [1 + e^f(x)]
+        let e_fx = Math.exp(fx);
+        let probability = e_fx / (1 + e_fx);
         let percentage = (probability * 100).toFixed(1);
 
         // 5. Determine Risk Band
@@ -243,7 +197,6 @@
         document.getElementById('risk-form').reset();
         document.getElementById('results').style.display = 'none';
         
-        // Optional: Reset the text displays as well just to be safe
         document.getElementById('final-percentage').innerText = '0';
         document.getElementById('final-decimal').innerText = '0.00';
         document.getElementById('risk-band-display').className = 'risk-band';
