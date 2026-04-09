@@ -16,7 +16,7 @@
         .form-group { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
         label { font-weight: 600; flex: 2; padding-right: 15px; }
         .help-text { display: block; font-size: 12px; font-weight: normal; color: #666; margin-top: 4px; }
-        select { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; width: 100%; box-sizing: border-box; }
+        select, input[type="number"] { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; width: 100%; box-sizing: border-box; }
         .input-wrapper { flex: 1; }
         
         button { display: block; width: 100%; background-color: #0056b3; color: white; padding: 15px; border: none; border-radius: 4px; font-size: 18px; cursor: pointer; margin-top: 20px; font-weight: bold; }
@@ -74,9 +74,9 @@
         </div>
 
         <div class="form-group">
-            <label for="obesity">Obesity or recent weight gain?</label>
+            <label for="age">Age (years):</label>
             <div class="input-wrapper">
-                <select id="obesity" name="obesity" required><option value="Yes">Yes</option><option value="No">No</option></select>
+                <input type="number" id="age" name="age" min="0" max="120" step="1" required>
             </div>
         </div>
 
@@ -135,29 +135,38 @@
     document.getElementById('risk-form').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        // 1. Gather Inputs (Only the variables in the final model)
+        // 1. Gather Inputs (Updated obesity to age)
         const visual_symptoms = document.getElementById('visual_symptoms').value;
-        const obesity = document.getElementById('obesity').value;
+        const age = parseFloat(document.getElementById('age').value);
+        
+        // Safety check for continuous numeric input
+        if (!Number.isFinite(age)) {
+            alert("Please enter a valid numeric age.");
+            return;
+        }
+
         const radio = document.getElementById('radio').value;
         const optic_atrophy = document.getElementById('optic_atrophy').value;
         const relevant_meds = document.getElementById('relevant_meds').value;
         const shunt = document.getElementById('shunt').value;
 
         // 2. Real Model Weights and Intercept
-        const intercept = -1.76195;
-        const weight_visual_symptoms = 1.54704;
-        const weight_obesity = -0.61541;
-        const weight_radio = 1.03546;
-        const weight_optic_atrophy = -0.78296;
-        const weight_relevant_meds = 1.21125;
-        const weight_shunt = -0.98441;
+        const intercept = -1.947170;
+        const weight_visual_symptoms = 1.328403;
+        const weight_age = -0.002360; // Changed from weight_obesity
+        const weight_radio = 1.086291;
+        const weight_optic_atrophy = -0.800441;
+        const weight_relevant_meds = 1.225011;
+        const weight_shunt = -0.979407;
 
         // 3. Calculate f(x)
-        // Binary coding: 1 if "Yes" (meaning we add the weight), 0 otherwise
         let fx = intercept;
 
+        // Continuous logic for age
+        fx += (age * weight_age);
+
+        // Binary logic for other variables
         if (visual_symptoms === 'Yes') fx += weight_visual_symptoms;
-        if (obesity === 'Yes') fx += weight_obesity;
         if (radio === 'Yes') fx += weight_radio;
         if (optic_atrophy === 'Yes') fx += weight_optic_atrophy;
         if (relevant_meds === 'Yes') fx += weight_relevant_meds;
@@ -165,7 +174,7 @@
 
         // 4. Final Probability calculation using exact formula: [e^f(x)] / [1 + e^f(x)]
         let e_fx = Math.exp(fx);
-        let probability = e_fx / (1 + e_fx);
+        let probability = 1 / (1 + Math.exp(-fx));
         let percentage = (probability * 100).toFixed(1);
 
         // 5. Determine Risk Band
